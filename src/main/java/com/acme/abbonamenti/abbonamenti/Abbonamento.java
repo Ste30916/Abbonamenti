@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.acme.abbonamenti.abbonati.Abbonato;
+import com.acme.abbonamenti.contenuti.ContenutoImp;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -40,6 +42,7 @@ public class Abbonamento {
 	@ToString.Exclude
 	@JsonIgnoreProperties({"abbonamenti"})
 	@ManyToOne
-	private Contenuto contenuto;
+	private ContenutoImp contenuto;
 
+	
 }
