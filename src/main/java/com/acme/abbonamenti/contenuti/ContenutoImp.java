@@ -29,7 +29,7 @@ import lombok.ToString;
 @Entity
 @Table(name = "Contenuti")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public  abstract class ContenutoImp implements Contenuto {
+public  class ContenutoImp {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long id;
