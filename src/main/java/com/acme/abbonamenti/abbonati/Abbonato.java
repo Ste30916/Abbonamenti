@@ -2,6 +2,7 @@ package com.acme.abbonamenti.abbonati;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,11 +27,11 @@ public class Abbonato {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
+	@Column(nullable = false, length = 60)
 	private String nome;
-	
+	@Column(nullable = false, length = 60)
 	private String cognome;
-	
+	@Column(nullable = false, length = 16)
 	private String codiceFiscale;
 	
 	@ToString.Exclude
