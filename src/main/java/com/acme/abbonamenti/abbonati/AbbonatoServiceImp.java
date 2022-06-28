@@ -20,12 +20,11 @@ public class AbbonatoServiceImp implements AbbonatoService {
 
 	
 	@Override
-	public Abbonato inserisciAbbonato(@Valid AbbonatoDto dto) throws AlreadyInsertedException  {
+	public void inserisciAbbonato(@Valid AbbonatoDto dto) throws AlreadyInsertedException  {
 		if(abbonatoRepo.existsByCodiceFiscale(dto.getCodiceFiscale())) throw new AlreadyInsertedException("Abbonato già inserito");
 		Abbonato ab= new Abbonato();
 		BeanUtils.copyProperties(dto, ab);
 		abbonatoRepo.save(ab);
-		return ab;
 	}
 
 	@Override
