@@ -39,3 +39,5 @@ public class Abbonato {
 	private List<Abbonamento> abbonamenti;
 
 }
+
+//commento
