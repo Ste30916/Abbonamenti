@@ -26,7 +26,7 @@ import lombok.ToString;
 public class Abbonato {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	@Column(nullable = false, length = 60)
 	private String nome;
 	@Column(nullable = false, length = 60)
