@@ -22,7 +22,7 @@ public class ContenutoDTO {
 		
 		@NotNull(message = "La tariffa è obbligatorio")
 		@DecimalMin(value = "0", message = "La tariffa non può essere minore di zero")
-		private double tariffa;
+		private Double tariffa;
 		
 
 
