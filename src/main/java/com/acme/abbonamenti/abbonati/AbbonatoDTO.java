@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AbbonatoDto {
+public class AbbonatoDTO {
 	@NotBlank(message = "Nome abbonato obbligatorio")
 	@Size(min = 2, max = 60,message = "Il nome dell'abbonato deve essere minimo di 2 caratteri massimo di 60")
 	private String nome;

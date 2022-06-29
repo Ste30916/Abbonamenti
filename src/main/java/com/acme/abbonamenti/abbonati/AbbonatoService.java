@@ -19,7 +19,7 @@ public class AbbonatoService {
 	@Autowired
 	AbbonatoRepository abbonatoRepo;
 
-	public void inserisciAbbonato(@Valid AbbonatoDto dto) throws AlreadyInsertedException  {
+	public void inserisciAbbonato(@Valid AbbonatoDTO dto) throws AlreadyInsertedException  {
 		if(abbonatoRepo.existsByCodiceFiscale(dto.getCodiceFiscale())) throw new AlreadyInsertedException("Abbonato già inserito");
 		Abbonato ab= new Abbonato();
 		BeanUtils.copyProperties(dto, ab);

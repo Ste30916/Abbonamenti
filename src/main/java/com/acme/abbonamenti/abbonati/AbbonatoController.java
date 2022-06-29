@@ -30,7 +30,7 @@ public class AbbonatoController {
  
 }
 	@PostMapping
-	public ResponseEntity<?> inserisciAbbonato(@RequestBody AbbonatoDto dto) throws AlreadyInsertedException{
+	public ResponseEntity<?> inserisciAbbonato(@RequestBody AbbonatoDTO dto) throws AlreadyInsertedException{
 		abbonatoService.inserisciAbbonato(dto);
 		return ResponseEntity.ok("Abbonato inserito");
 	}
