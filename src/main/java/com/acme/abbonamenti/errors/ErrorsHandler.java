@@ -13,8 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.acme.abbonamenti.abbonati.AlreadyInsertedException;
-
 
 @ControllerAdvice
 public class ErrorsHandler {

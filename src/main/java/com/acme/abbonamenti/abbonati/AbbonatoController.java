@@ -9,23 +9,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.acme.abbonamenti.errors.AlreadyInsertedException;
+
 @RestController
 @RequestMapping("/abbonato")
 public class AbbonatoController {
-	@Autowired
-	AbbonatoRepository abbonatoRepo;
+
 	@Autowired
 	AbbonatoService abbonatoService;
 	
 	@GetMapping
 	public ResponseEntity<?> getAllAbbonati(){
-		return ResponseEntity.ok(abbonatoRepo.findAll());
+		return ResponseEntity.ok(abbonatoService.getAllAbbonati());
 		
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getAbbonato(@PathVariable long id){
-		return ResponseEntity.ok(abbonatoRepo.findById(id));
+		return ResponseEntity.ok(abbonatoService.getAbbonato(id));
  
 }
 	@PostMapping

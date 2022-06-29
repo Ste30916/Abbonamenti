@@ -1,4 +1,4 @@
-package com.acme.abbonamenti.contenuti;
+package com.acme.abbonamenti.errors;
 
 public class AlreadyInsertedException extends Exception {
 

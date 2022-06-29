@@ -1,5 +1,6 @@
 package com.acme.abbonamenti.abbonamenti;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -7,8 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.acme.abbonamenti.abbonati.Abbonato;
-import com.acme.abbonamenti.contenuti.ContenutoImp;
+import com.acme.abbonamenti.contenuti.Contenuto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -28,8 +31,11 @@ public class Abbonamento {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
+	@DateTimeFormat(pattern="dd/MM/yyyy")
+	@Column(nullable = false)
 	private String dataIscrizione;
 	
+	@Column(nullable = false)
 	private int durata;
 	
 	@EqualsAndHashCode.Exclude
@@ -42,7 +48,7 @@ public class Abbonamento {
 	@ToString.Exclude
 	@JsonIgnoreProperties({"abbonamenti"})
 	@ManyToOne
-	private ContenutoImp contenuto;
+	private Contenuto contenuto;
 
 	
 }

@@ -5,28 +5,27 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import com.acme.abbonamenti.errors.AlreadyInsertedException;
+
 
 @RestController
 @RequestMapping("/contenuto")
 public class ContenutoController {
 	
 	@Autowired
-	ContenutoRepository contenutoRepository;
+	ContenutoService contenutoService;
 	
-	@Autowired
-	ContenutoServiceImp contenutoService;
-	
-	@GetMapping
+	@GetMapping("/{id}")
 	public ResponseEntity<?> get(@PathVariable long id) {
 		return ResponseEntity.ok(contenutoService.find(id));
 	}
 	@GetMapping
 	public ResponseEntity<?> getAll() {
-		return ResponseEntity.ok(contenutoRepository.findAll());
+		return ResponseEntity.ok(contenutoService.getListaContenuti());
 	}
 	
 	@PostMapping
