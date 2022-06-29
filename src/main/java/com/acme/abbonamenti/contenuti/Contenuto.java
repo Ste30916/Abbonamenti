@@ -37,7 +37,7 @@ public  class Contenuto {
 	@Column(nullable = false, length = 30)
 	private String nome;
 	@Column(nullable = false)
-	private double tariffa;
+	private Double tariffa;
 	
 	@ToString.Exclude
 	@JsonIgnoreProperties({"contenuto"})

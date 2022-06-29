@@ -28,12 +28,11 @@ public class ContenutoServiceTest extends TestBase {
 	ContenutoRepository contenutoRepository;
 	
 	@Test
-	@DisplayName("Inserisco un contenuto e la trovo con il servizio ")
+	@DisplayName("Inserisco un contenuto e lo trovo con il servizio ")
 	public void testGetOk() {
 		List<Abbonamento> l = new ArrayList<Abbonamento>();
-		Contenuto c = new Contenuto(null, "Netflix", 20.5, l);
+		Contenuto c = new Contenuto(null, "Sky", 20.5, l);
 		contenutoRepository.save(c);
-		
 		
 		Contenuto cfound = contenutoService.find(c.getId());
 		
@@ -60,8 +59,7 @@ public class ContenutoServiceTest extends TestBase {
 		assertThatThrownBy( () -> contenutoService.inserisciContenuto(cdto)  )
 		.isInstanceOf(ConstraintViolationException.class)
 		.hasMessageContaining("dto.nome")
-		.hasMessageContaining("dto.cognome")
-		.hasMessageContaining("dto.codiceFiscale");
+		.hasMessageContaining("dto.tariffa");
 	}
 	
 	@Test
@@ -74,7 +72,7 @@ public class ContenutoServiceTest extends TestBase {
 		ContenutoDTO cdto = new ContenutoDTO( c.getNome(),c.getTariffa() );
 		assertThatThrownBy( () -> contenutoService.inserisciContenuto(cdto)  )
 		.isInstanceOf(AlreadyInsertedException.class)
-		.hasMessage("Contenuto già inserito");
+		.hasMessage("Contenuto già esistente");
 	}
 	
 	@Test
@@ -96,14 +94,14 @@ public class ContenutoServiceTest extends TestBase {
 		
 		assertThatThrownBy( () ->  contenutoService.inserisciContenuto(cdto)  )
 		.isInstanceOf(AlreadyInsertedException.class)
-		.hasMessage("Contenuto già inserito") ;
+		.hasMessage("Contenuto già esistente") ;
 	}	
 	
 	@Test
 	@DisplayName("Cerco di inserire un contenuto ma i dati errati provocano un eccezione di tipo CostraintValidationException")
 	public void testValidationKo() {
 		 
-		ContenutoDTO cdto = new ContenutoDTO("Spotify", 38.0);
+		ContenutoDTO cdto = new ContenutoDTO("s", -1D);
 		
 		assertThatThrownBy( () -> contenutoService.inserisciContenuto(cdto) )
 		.isInstanceOf(  ConstraintViolationException.class )

@@ -22,7 +22,7 @@ public class ContenutoControllerTest extends TestControllerBase {
 	@Autowired
 	ContenutoRepository contenutoRepository;
 	
-	@Value("${test.entry.point}/abbonato")
+	@Value("${test.entry.point}/contenuto")
 	private String URL;
 	
 	@Test
@@ -42,10 +42,10 @@ public class ContenutoControllerTest extends TestControllerBase {
 	@DisplayName("Cerco e trovo un contenuto by nome")
 	public void getByIdOk() {
 		List<Abbonamento> l = new ArrayList<Abbonamento>();
-		Contenuto c = new Contenuto(null,"Netflix", 18.0, l);
+		Contenuto c = new Contenuto(null,"Prime Video", 23.0, l);
 		contenutoRepository.save(c);
-		
-		ResponseEntity<Contenuto> r = getRestTemplate().getForEntity(URL+"/"+c.getNome(), Contenuto.class);
+
+		ResponseEntity<Contenuto> r = getRestTemplate().getForEntity(URL+"/"+c.getId(), Contenuto.class);
 		
 		assertThat(r.getStatusCode()).isEqualTo(HttpStatus.OK );
 		Contenuto c1 = r.getBody();
@@ -66,7 +66,7 @@ public class ContenutoControllerTest extends TestControllerBase {
 	@Test
 	@DisplayName("Inserisco un contenuto con successo")
 	public void testPostOk() {
-		ContenutoDTO c = new ContenutoDTO("Netflix", 18.0);
+		ContenutoDTO c = new ContenutoDTO("Disney Plus", 12.0);
 		ResponseEntity<String> r = getRestTemplate().postForEntity(URL, c, String.class);
 		
 		assertThat(r.getStatusCode()).isEqualTo( HttpStatus.OK);
@@ -77,13 +77,13 @@ public class ContenutoControllerTest extends TestControllerBase {
 	}
 	
 	@Test
-	@DisplayName("Provo ad inserire un abbonato già esistente ottengo status BAD_REQUEST")
+	@DisplayName("Provo ad inserire un contenuto già esistente ottengo status BAD_REQUEST")
 	public void postKoAlreadyInsertedException() {
 		List<Abbonamento> l = new ArrayList<Abbonamento>();
-		Contenuto c = new Contenuto(null,"Netflix", 18.0, l);
+		Contenuto c = new Contenuto(null,"Hulu", 10.0, l);
 		contenutoRepository.save(c);
 		
-		ContenutoDTO dto = new ContenutoDTO("Netflix", 18.0);
+		ContenutoDTO dto = new ContenutoDTO("Hulu", 10.0);
 		ResponseEntity<String> r = getRestTemplate().postForEntity(URL, dto, String.class);
 		
 		assertThat( r.getStatusCode() ).isEqualTo( HttpStatus.BAD_REQUEST );
@@ -92,7 +92,7 @@ public class ContenutoControllerTest extends TestControllerBase {
 	@Test
 	@DisplayName("Provo ad inserire un abbonato ma il nome è vuoto e ottengo status BAD_REQUEST")
 	public void postKoValidationErrors() {
-		ContenutoDTO dto = new ContenutoDTO("Netflix", 18.0);
+		ContenutoDTO dto = new ContenutoDTO("", 100.0);
 		ResponseEntity<String> r = getRestTemplate().postForEntity(URL, dto, String.class);
 		
 		assertThat(r.getStatusCode()).isEqualTo( HttpStatus.BAD_REQUEST );
