@@ -24,6 +24,12 @@ public class AbbonamentoService {
 	@Autowired private AbbonatoService abbonatoService;
 	@Autowired private ContenutoService contenutoService;
 	
+	public Abbonamento find(long id) {
+		
+		if(!abbonamentoRepo.existsById(id)) throw new EntityNotFoundException("Abbonamento non trovato");
+		return abbonamentoRepo.findById(id).get();
+	}
+	
 	public List<Abbonamento> findAbbonatiByContenuto (Long idContenuto) {
 		return abbonamentoRepo.findAllByContenuto_id(idContenuto);
 	}

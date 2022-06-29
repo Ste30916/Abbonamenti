@@ -29,6 +29,11 @@ public class AbbonamentoController {
 		return ResponseEntity.ok( abbonamentoService.findAll() );
 	}
 	
+	@GetMapping("/{id}")
+	public ResponseEntity<?> get(@PathVariable long id) {
+		return ResponseEntity.ok(abbonamentoService.find(id));
+	}
+	
 	@PostMapping
 	public ResponseEntity<?> insert(@RequestBody AbbonamentoDTO dto) throws com.acme.abbonamenti.errors.AlreadyInsertedException {
 		abbonamentoService.inserisciAbbonato(dto);
