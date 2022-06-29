@@ -1,5 +1,7 @@
 package com.acme.abbonamenti.contenuto;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,10 +9,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import com.acme.abbonamenti.abbonamenti.Abbonamento;
-import com.acme.abbonamenti.abbonamenti.AbbonamentoRepository;
 import com.acme.abbonamenti.contenuti.Contenuto;
+import com.acme.abbonamenti.contenuti.ContenutoDTO;
 import com.acme.abbonamenti.contenuti.ContenutoRepository;
 import com.acme.abbonamenti.general.TestControllerBase;
 
@@ -25,7 +29,7 @@ public class ContenutoControllerTest extends TestControllerBase {
 	@DisplayName("cerco l'elenco dei contenuti")
 	public void testGetAll() {
 		List<Abbonamento> l = new ArrayList<Abbonamento>();
-		Contenuto c = new Contenuto(null,"Rossi","Mario","vbfhsjelonrawldc", l);
+		Contenuto c = new Contenuto(null,"Netflix", 18.0, l);
 		contenutoRepository.save(c);
 		
 		
@@ -35,52 +39,51 @@ public class ContenutoControllerTest extends TestControllerBase {
 	}
 
 	@Test
-	@DisplayName("Cerco e trovo un abbonato by id")
+	@DisplayName("Cerco e trovo un contenuto by nome")
 	public void getByIdOk() {
 		List<Abbonamento> l = new ArrayList<Abbonamento>();
-		Abbonato a = new Abbonato(null,"Rossi","Mario","1234567890123456", l);
-		abbonatoRepository.save(a);
+		Contenuto c = new Contenuto(null,"Netflix", 18.0, l);
+		contenutoRepository.save(c);
 		
-		ResponseEntity<Abbonato> r = getRestTemplate().getForEntity(URL+"/"+a.getId(), Abbonato.class);
+		ResponseEntity<Contenuto> r = getRestTemplate().getForEntity(URL+"/"+c.getNome(), Contenuto.class);
 		
 		assertThat(r.getStatusCode()).isEqualTo(HttpStatus.OK );
-		Abbonato a1 = r.getBody();
+		Contenuto c1 = r.getBody();
 		
-		assertThat(  a1.getCodiceFiscale() ).isEqualTo( a.getCodiceFiscale()  );
-		assertThat(  a1.getId() ).isEqualTo( a.getId()  );
-		assertThat(  a1.getNome() ).isEqualTo(a.getNome()  );
-		assertThat(  a1.getCognome() ).isEqualTo(a.getCognome()  );
+		
+		assertThat(  c1.getNome() ).isEqualTo(c.getNome()  );
+		assertThat(  c1.getTariffa() ).isEqualTo(c.getTariffa()  );
 	}
 	
 	
 	@Test
-	@DisplayName("Cerco un abbonato inesistente e ottengo status NOT_FOUND")
+	@DisplayName("Cerco un contenuto inesistente e ottengo status NOT_FOUND")
 	public void getByIdKo() {
 		ResponseEntity<String> r = getRestTemplate().getForEntity(URL+"/100000", String.class);
 		assertThat(  r.getStatusCode() ).isEqualTo( HttpStatus.NOT_FOUND );
 	}
 	
 	@Test
-	@DisplayName("Inserisco un abbonato con successo")
+	@DisplayName("Inserisco un contenuto con successo")
 	public void testPostOk() {
-		AbbonatoDTO a = new AbbonatoDTO("Mario","Rossi","qkfgcbdlormusncx");
-		ResponseEntity<String> r = getRestTemplate().postForEntity(URL, a, String.class);
+		ContenutoDTO c = new ContenutoDTO("Netflix", 18.0);
+		ResponseEntity<String> r = getRestTemplate().postForEntity(URL, c, String.class);
 		
 		assertThat(r.getStatusCode()).isEqualTo( HttpStatus.OK);
 		
-		Abbonato ab = abbonatoRepository.findByCodiceFiscale( a.getCodiceFiscale() );
+		Contenuto c1 = contenutoRepository.findByNome( c.getNome() );
 		
-		assertThat(ab).isNotNull();
+		assertThat(c1).isNotNull();
 	}
 	
 	@Test
 	@DisplayName("Provo ad inserire un abbonato già esistente ottengo status BAD_REQUEST")
 	public void postKoAlreadyInsertedException() {
 		List<Abbonamento> l = new ArrayList<Abbonamento>();
-		Abbonato a = new Abbonato(null,"Rossi","Mario","qyerughdflitrwls", l);
-		abbonatoRepository.save(a);
+		Contenuto c = new Contenuto(null,"Netflix", 18.0, l);
+		contenutoRepository.save(c);
 		
-		AbbonatoDTO dto = new AbbonatoDTO("Rossi","Mario","qyerughdflitrwls");
+		ContenutoDTO dto = new ContenutoDTO("Netflix", 18.0);
 		ResponseEntity<String> r = getRestTemplate().postForEntity(URL, dto, String.class);
 		
 		assertThat( r.getStatusCode() ).isEqualTo( HttpStatus.BAD_REQUEST );
@@ -89,7 +92,7 @@ public class ContenutoControllerTest extends TestControllerBase {
 	@Test
 	@DisplayName("Provo ad inserire un abbonato ma il nome è vuoto e ottengo status BAD_REQUEST")
 	public void postKoValidationErrors() {
-		AbbonatoDTO dto = new AbbonatoDTO(null,"Aurelio","12dfghjklzxcvbuu");
+		ContenutoDTO dto = new ContenutoDTO("Netflix", 18.0);
 		ResponseEntity<String> r = getRestTemplate().postForEntity(URL, dto, String.class);
 		
 		assertThat(r.getStatusCode()).isEqualTo( HttpStatus.BAD_REQUEST );
