@@ -22,10 +22,10 @@ public class AbbonamentoDTO {
 	@NotBlank(message = "Nome Contenuto obbligatorio")
 	@Size(min = 2, max=30, message = "Il nome del contenuto deve essere minimo di 2 caratteri, massimo di 60")
 	private String nomeContenuto;
-	@NotBlank(message = "Durata obbligatoria")
-	@DateTimeFormat(pattern="dd/MM/yyyy")
+	@NotBlank(message = "Data obbligatoria")
+	@DateTimeFormat(pattern="dd/mm/yyyy")
 	private String dataIscrizione;
 	@NotNull(message = "Durata obbligatoria")
 	@Min(value = 1, message = "La durata dell'abbonamento deve essere minimo 1 mese")
-	private int durata;
+	private Integer durata;
 }

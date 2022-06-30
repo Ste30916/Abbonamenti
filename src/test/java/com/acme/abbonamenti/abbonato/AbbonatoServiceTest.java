@@ -68,19 +68,6 @@ public class AbbonatoServiceTest extends TestBase {
 	}
 	
 	@Test
-	@DisplayName("Provo ad inserire un abbonato già presente nel db")
-	public void testPostPersonKoAlreadyPresent() {
-		List<Abbonamento> l = new ArrayList<Abbonamento>();
-		Abbonato a = new Abbonato(null,"Rossi","Mario","qydgerlsorjhrhdf", l);
-		abbonatoRepository.save(a);
-		
-		AbbonatoDTO adto = new AbbonatoDTO( a.getNome(),a.getCognome(), a.getCodiceFiscale()  );
-		assertThatThrownBy( () -> abbonatoService.inserisciAbbonato(adto)  )
-		.isInstanceOf(AlreadyInsertedException.class)
-		.hasMessage(AbbonatoErrorMessagesEnum.Fields.ABBONATO_GIA_ESISTENTE);
-	}
-	
-	@Test
 	@DisplayName("Cerco un abbonato inesistente")
 	public void testGetUnknowElement() {
 		assertThatThrownBy( () -> abbonatoService.getAbbonato(100000l) )
