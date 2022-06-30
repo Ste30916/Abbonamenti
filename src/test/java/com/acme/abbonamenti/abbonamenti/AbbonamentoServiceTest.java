@@ -119,11 +119,11 @@ public class AbbonamentoServiceTest extends TestBase {
 	@DisplayName("Cerco di inserire un abbonamento ma i dati errati provocano un eccezione di tipo CostraintValidationException")
 	public void testValidationKo() {
 		 
-		AbbonamentoDTO bdto = new AbbonamentoDTO("","Netflix","143/12/2023", -30);
+		AbbonamentoDTO bdto = new AbbonamentoDTO("","Netflix","145/12/2023", -30);
 		
 		assertThatThrownBy( () -> abbonamentoService.inserisciAbbonamento(bdto) )
 		.isInstanceOf(  ConstraintViolationException.class )
-		.hasMessageContaining("Data")
+		.hasMessageContaining("dataIscrizione")
 		.hasMessageContaining("codiceFiscale")
 		.hasMessageContaining("durata");
 	}
