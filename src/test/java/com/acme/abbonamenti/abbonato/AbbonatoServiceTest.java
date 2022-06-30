@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.acme.abbonamenti.abbonamenti.Abbonamento;
 import com.acme.abbonamenti.abbonati.Abbonato;
 import com.acme.abbonamenti.abbonati.AbbonatoDTO;
+import com.acme.abbonamenti.abbonati.AbbonatoErrorMessagesEnum;
 import com.acme.abbonamenti.abbonati.AbbonatoRepository;
 import com.acme.abbonamenti.abbonati.AbbonatoService;
 import com.acme.abbonamenti.errors.AlreadyInsertedException;
@@ -76,7 +77,7 @@ public class AbbonatoServiceTest extends TestBase {
 		AbbonatoDTO adto = new AbbonatoDTO( a.getNome(),a.getCognome(), a.getCodiceFiscale()  );
 		assertThatThrownBy( () -> abbonatoService.inserisciAbbonato(adto)  )
 		.isInstanceOf(AlreadyInsertedException.class)
-		.hasMessage("Abbonato già inserito");
+		.hasMessage(AbbonatoErrorMessagesEnum.Fields.ABBONATO_GIA_ESISTENTE);
 	}
 	
 	@Test
@@ -84,7 +85,7 @@ public class AbbonatoServiceTest extends TestBase {
 	public void testGetUnknowElement() {
 		assertThatThrownBy( () -> abbonatoService.getAbbonato(100000l) )
 		.isInstanceOf(EntityNotFoundException.class)
-		.hasMessage("Abbonato non trovato");
+		.hasMessage(AbbonatoErrorMessagesEnum.Fields.ABBONATO_NON_ESISTENTE);
 	}
 	
 	@Test
@@ -98,7 +99,7 @@ public class AbbonatoServiceTest extends TestBase {
 		
 		assertThatThrownBy( () ->  abbonatoService.inserisciAbbonato(adto)  )
 		.isInstanceOf(AlreadyInsertedException.class)
-		.hasMessage("Abbonato già inserito") ;
+		.hasMessage(AbbonatoErrorMessagesEnum.Fields.ABBONATO_GIA_ESISTENTE) ;
 	}	
 	
 	@Test
@@ -114,13 +115,12 @@ public class AbbonatoServiceTest extends TestBase {
 	}
 	
 	@Test
-	@DisplayName("Cerco un abbonato senza trovarla")
+	@DisplayName("Cerco un abbonato senza trovarlo")
 	public void testGetKo() {
-		 
 		
 		assertThatThrownBy( () -> abbonatoService.getAbbonato(1000l) )
 		.isInstanceOf(  EntityNotFoundException.class )
-		.hasMessage("Abbonato non trovato");
+		.hasMessage(AbbonatoErrorMessagesEnum.Fields.ABBONATO_NON_ESISTENTE);
 	}
 	
 }

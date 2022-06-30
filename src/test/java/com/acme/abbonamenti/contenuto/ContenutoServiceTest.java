@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.acme.abbonamenti.abbonamenti.Abbonamento;
 import com.acme.abbonamenti.contenuti.Contenuto;
 import com.acme.abbonamenti.contenuti.ContenutoDTO;
+import com.acme.abbonamenti.contenuti.ContenutoErrorMessagesEnum;
 import com.acme.abbonamenti.contenuti.ContenutoRepository;
 import com.acme.abbonamenti.contenuti.ContenutoService;
 import com.acme.abbonamenti.errors.AlreadyInsertedException;
@@ -72,7 +73,7 @@ public class ContenutoServiceTest extends TestBase {
 		ContenutoDTO cdto = new ContenutoDTO( c.getNome(),c.getTariffa() );
 		assertThatThrownBy( () -> contenutoService.inserisciContenuto(cdto)  )
 		.isInstanceOf(AlreadyInsertedException.class)
-		.hasMessage("Contenuto già esistente");
+		.hasMessage(ContenutoErrorMessagesEnum.Fields.CONTENUTO_GIA_ESISTENTE);
 	}
 	
 	@Test
@@ -80,7 +81,7 @@ public class ContenutoServiceTest extends TestBase {
 	public void testGetUnknowElement() {
 		assertThatThrownBy( () -> contenutoService.find(100000l) )
 		.isInstanceOf(EntityNotFoundException.class)
-		.hasMessage("Contenuto non trovato");
+		.hasMessage(ContenutoErrorMessagesEnum.Fields.CONTENUTO_NON_ESISTENTE);
 	}
 	
 	@Test
@@ -94,7 +95,7 @@ public class ContenutoServiceTest extends TestBase {
 		
 		assertThatThrownBy( () ->  contenutoService.inserisciContenuto(cdto)  )
 		.isInstanceOf(AlreadyInsertedException.class)
-		.hasMessage("Contenuto già esistente") ;
+		.hasMessage(ContenutoErrorMessagesEnum.Fields.CONTENUTO_GIA_ESISTENTE) ;
 	}	
 	
 	@Test
@@ -111,12 +112,11 @@ public class ContenutoServiceTest extends TestBase {
 	
 	@Test
 	@DisplayName("Cerco un contenuto senza trovarlo")
-	public void testGetKo() {
-		 
+	public void testGetKo() {	 
 		
 		assertThatThrownBy( () -> contenutoService.find(1000l) )
 		.isInstanceOf(  EntityNotFoundException.class )
-		.hasMessage("Contenuto non trovato");
+		.hasMessage(ContenutoErrorMessagesEnum.Fields.CONTENUTO_NON_ESISTENTE);
 	}
 	
 	

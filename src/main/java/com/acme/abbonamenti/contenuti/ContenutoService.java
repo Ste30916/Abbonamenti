@@ -20,23 +20,21 @@ public class ContenutoService {
 	
 	public Contenuto find(long id) {
 		
-		if(!contenutoRepository.existsById(id)) throw new EntityNotFoundException("Contenuto non trovato");
+		if(!contenutoRepository.existsById(id)) throw new EntityNotFoundException(ContenutoErrorMessagesEnum.Fields.CONTENUTO_NON_ESISTENTE);
 		return contenutoRepository.findById(id).get();
 	}
 	
 	public Contenuto find(String nomeContenuto) {
 		
-		if(!contenutoRepository.existsByNome(nomeContenuto)) throw new EntityNotFoundException("Contenuto non trovato");
+		if(!contenutoRepository.existsByNome(nomeContenuto)) throw new EntityNotFoundException(ContenutoErrorMessagesEnum.Fields.CONTENUTO_NON_ESISTENTE);
 		return contenutoRepository.findByNome(nomeContenuto);
 	}
 	
 	public void inserisciContenuto(@Valid ContenutoDTO dto) throws AlreadyInsertedException  {
-		if(contenutoRepository.existsByNome(dto.getNome())) throw new AlreadyInsertedException("Contenuto già esistente");
+		if(contenutoRepository.existsByNome(dto.getNome())) throw new AlreadyInsertedException(ContenutoErrorMessagesEnum.Fields.CONTENUTO_GIA_ESISTENTE);
 		
 		Contenuto c = new Contenuto(); 
-		
 		BeanUtils.copyProperties(dto, c);
-		
 		contenutoRepository.save(c);
 	}
 

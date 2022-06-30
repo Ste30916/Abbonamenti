@@ -26,7 +26,7 @@ public class AbbonamentoService {
 	
 	public Abbonamento find(long id) {
 		
-		if(!abbonamentoRepo.existsById(id)) throw new EntityNotFoundException("Abbonamento non trovato");
+		if(!abbonamentoRepo.existsById(id)) throw new EntityNotFoundException(AbbonamentoErrorMessagesEnum.Fields.ABBONAMENTO_NON_ESISTENTE);
 		return abbonamentoRepo.findById(id).get();
 	}
 	
@@ -42,14 +42,14 @@ public class AbbonamentoService {
 		return (List<Abbonamento>) abbonamentoRepo.findAll();
 	}
 	
-	public void inserisciAbbonato(@Valid AbbonamentoDTO dto) 
+	public void inserisciAbbonamento(@Valid AbbonamentoDTO dto) 
 			throws AlreadyInsertedException, EntityNotFoundException {
 		Abbonato abbonato = abbonatoService.getAbbonato(dto.getCodiceFiscale());
 		Contenuto contenuto = contenutoService.find(dto.getNomeContenuto());
 		
-		if (abbonamentoRepo.existsByAbbonato_idAndContenuto_id
-				(abbonato.getId(), contenuto.getId())) throw new AlreadyInsertedException
-				("Abbonamento già inserito");
+		if (abbonamentoRepo.existsByAbbonato_idAndContenuto_idAndDataIscrizione
+				(abbonato.getId(), contenuto.getId(), dto.getDataIscrizione())) 
+				throw new AlreadyInsertedException(AbbonamentoErrorMessagesEnum.Fields.ABBONAMENTO_GIA_ESISTENTE);
 		
 		Abbonamento abbonamento = new Abbonamento();
 		BeanUtils.copyProperties(dto, abbonamento);

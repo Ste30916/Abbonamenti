@@ -20,19 +20,19 @@ public class AbbonatoService {
 	AbbonatoRepository abbonatoRepo;
 
 	public void inserisciAbbonato(@Valid AbbonatoDTO dto) throws AlreadyInsertedException  {
-		if(abbonatoRepo.existsByCodiceFiscale(dto.getCodiceFiscale())) throw new AlreadyInsertedException("Abbonato già inserito");
+		if(abbonatoRepo.existsByCodiceFiscale(dto.getCodiceFiscale())) throw new AlreadyInsertedException(AbbonatoErrorMessagesEnum.Fields.ABBONATO_GIA_ESISTENTE);
 		Abbonato ab= new Abbonato();
 		BeanUtils.copyProperties(dto, ab);
 		abbonatoRepo.save(ab);
 	}
 
 	public Abbonato getAbbonato(long id) {
-		if(! abbonatoRepo.existsById(id)) throw new EntityNotFoundException("Abbonato non trovato");
+		if(! abbonatoRepo.existsById(id)) throw new EntityNotFoundException(AbbonatoErrorMessagesEnum.Fields.ABBONATO_NON_ESISTENTE);
 		return abbonatoRepo.findById(id).get();
 	}
 	
 	public Abbonato getAbbonato(String codiceFiscale) {
-		if(! abbonatoRepo.existsByCodiceFiscale(codiceFiscale)) throw new EntityNotFoundException("Abbonato non trovato");
+		if(! abbonatoRepo.existsByCodiceFiscale(codiceFiscale)) throw new EntityNotFoundException(AbbonatoErrorMessagesEnum.Fields.ABBONATO_NON_ESISTENTE);
 		return abbonatoRepo.findByCodiceFiscale(codiceFiscale);
 	}
 

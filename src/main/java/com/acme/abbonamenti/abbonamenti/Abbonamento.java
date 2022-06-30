@@ -29,7 +29,7 @@ public class Abbonamento {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	
 	@DateTimeFormat(pattern="dd/MM/yyyy")
 	@Column(nullable = false)

@@ -36,7 +36,7 @@ public class AbbonamentoController {
 	
 	@PostMapping
 	public ResponseEntity<?> insert(@RequestBody AbbonamentoDTO dto) throws com.acme.abbonamenti.errors.AlreadyInsertedException {
-		abbonamentoService.inserisciAbbonato(dto);
+		abbonamentoService.inserisciAbbonamento(dto);
 		return ResponseEntity.ok(  "Abbonamento inserito"  );
 	}
 	
