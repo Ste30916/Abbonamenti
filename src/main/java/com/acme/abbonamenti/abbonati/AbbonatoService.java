@@ -26,7 +26,7 @@ public class AbbonatoService {
 		abbonatoRepo.save(ab);
 	}
 
-	public Abbonato getAbbonato(long id) {
+	public Abbonato find(long id) {
 		if(! abbonatoRepo.existsById(id)) throw new EntityNotFoundException(AbbonatoErrorMessagesEnum.Fields.ABBONATO_NON_ESISTENTE);
 		return abbonatoRepo.findById(id).get();
 	}

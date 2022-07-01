@@ -38,7 +38,7 @@ public class AbbonatoServiceTest extends TestBase {
 		abbonatoRepository.save(a);
 		
 		
-		Abbonato afound = abbonatoService.getAbbonato(a.getId());
+		Abbonato afound = abbonatoService.find(a.getId());
 		
 		assertThat( afound).isNotNull();
 		assertThat( afound.getCodiceFiscale()).isEqualTo(a.getCodiceFiscale());
@@ -70,7 +70,7 @@ public class AbbonatoServiceTest extends TestBase {
 	@Test
 	@DisplayName("Cerco un abbonato inesistente")
 	public void testGetUnknowElement() {
-		assertThatThrownBy( () -> abbonatoService.getAbbonato(100000l) )
+		assertThatThrownBy( () -> abbonatoService.find(100000l) )
 		.isInstanceOf(EntityNotFoundException.class)
 		.hasMessage(AbbonatoErrorMessagesEnum.Fields.ABBONATO_NON_ESISTENTE);
 	}
@@ -105,7 +105,7 @@ public class AbbonatoServiceTest extends TestBase {
 	@DisplayName("Cerco un abbonato senza trovarlo")
 	public void testGetKo() {
 		
-		assertThatThrownBy( () -> abbonatoService.getAbbonato(1000l) )
+		assertThatThrownBy( () -> abbonatoService.find(1000l) )
 		.isInstanceOf(  EntityNotFoundException.class )
 		.hasMessage(AbbonatoErrorMessagesEnum.Fields.ABBONATO_NON_ESISTENTE);
 	}
