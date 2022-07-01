@@ -1,5 +1,9 @@
 package com.acme.abbonamenti.contenuti;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,11 +25,21 @@ public class ContenutoController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> get(@PathVariable long id) {
-		return ResponseEntity.ok(contenutoService.find(id));
+		Contenuto c= contenutoService.find(id);
+		GetContenutoResponse resp=new GetContenutoResponse();
+		BeanUtils.copyProperties(c, resp);
+		return ResponseEntity.ok(resp);
 	}
 	@GetMapping
 	public ResponseEntity<?> getAll() {
-		return ResponseEntity.ok(contenutoService.getListaContenuti());
+		List<Contenuto> listContenuto =contenutoService.getListaContenuti();
+		List<GetContenutoResponse> listResp= new ArrayList<GetContenutoResponse>();
+		for (Contenuto c : listContenuto) {
+			GetContenutoResponse resp=new GetContenutoResponse();
+			BeanUtils.copyProperties(c, resp);
+			listResp.add(resp);			
+		}
+		return ResponseEntity.ok(listResp);
 	}
 	
 	@PostMapping
